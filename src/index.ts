@@ -1,4 +1,5 @@
 import express from 'express';
+import { env } from './env';
 
 import { services } from './services';
 import { 
@@ -13,7 +14,7 @@ app.use(express.json());
 
 app.use('/webhook-providers', expressController(services.webhookProvidersService))
 
-app.listen(port, () => {
+app.listen(env.expressPort, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 });
 
