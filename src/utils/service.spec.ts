@@ -19,14 +19,14 @@ describe('service-utils', () => {
   describe('composePromises', () => {
     it('should compose an array of promises', async () => {
       return expect(
-        composePromises<MockContract>([ mockAdd, mockAdd ], { data: { number: 0} })
-      ).resolves.toEqual({data: {number: 2}})
+        composePromises<MockContract>([ mockAdd, mockAdd ], { data: { number: 0}, serviceName: 'test-name' })
+      ).resolves.toEqual({data: { number: 2 }, serviceName: 'test-name'})
     })
 
     it('should return context if no array is provided', async () => {
       return expect(
-        composePromises<MockContract>([ ], { data: { number: 0} })
-      ).resolves.toEqual({data: {number: 0}})
+        composePromises<MockContract>([ ], { data: { number: 0 }, serviceName: 'test-name' })
+      ).resolves.toEqual({data: { number: 0 }, serviceName: 'test-name'})
     })
   })
 

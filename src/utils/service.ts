@@ -1,5 +1,6 @@
 
 interface Context<T> {
+  serviceName: string;
   data: T
 }
 
@@ -27,5 +28,5 @@ export const service = <T>({
   create
 }: ServiceConstructor<T>) => (): Service<T> => ({
   name,
-  create: async (data: T) => await (await composePromises(create, { data })).data
+  create: async (data: T) => await (await composePromises(create, { data, serviceName: name })).data
 })
