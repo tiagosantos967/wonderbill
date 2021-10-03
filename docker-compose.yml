@@ -12,6 +12,14 @@ services:
     networks:
       - wonderbill-network
 
+  mock-providers:
+    build: ./mocks/providers
+    container_name: mock-providers
+    ports:
+      - 3000:3000
+    networks:
+      - wonderbill-network
+
 networks:
   wonderbill-network:
     driver: bridge
