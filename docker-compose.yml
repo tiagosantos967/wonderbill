@@ -20,6 +20,14 @@ services:
     networks:
       - wonderbill-network
 
+  mock-callback:
+    build: ./mocks/callback
+    container_name: mock-callback
+    ports:
+      - 8000:3000
+    networks:
+      - wonderbill-network
+
 networks:
   wonderbill-network:
     driver: bridge
