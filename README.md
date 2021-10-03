@@ -5,6 +5,8 @@
 3. `npm start` to start the main codebase
 4. run `curl --location --request POST 'localhost:5000/webhook-providers' --header 'Content-Type: application/json' --data-raw '{"provider": "gas", "callbackUrl": "http://localhost:8000/"}'`
 
+You can also access the RabbitMQ management portal [here](http://localhost:8080) after you run step number 2 successfully. (username: guest, password: guest)
+
 # Problem description
 
 This is a solution to [this](https://bitbucket.org/wonderbill/datahog/src/master/) problem that was sent to me by WonderBill.  
@@ -28,11 +30,11 @@ With the following flow:
 }
 ```
 2. RabbitMQ receives a `webhook-providers created` message with the data of the previous request
-3. RabbitMQ assigns the message to an available consumer, which calls the provider and the callbackUrl. If either the provider or the callback are unavailable, the consumer does not ackowledge the message and RabbitMQ assigns it to another consumer to try again.
+3. RabbitMQ assigns the message to an available consumer, which calls the provider and the callbackUrl. If either the provider or the callback are unavailable, the consumer does not acknowledge the message and RabbitMQ assigns it to another consumer to try again.
 
 This was done in a single repository, with strict separation of concerns on the multiple layers of abstration used, meaning that it will be easy to convert it into a microservice architecture when it scales, with little code refactoring needed. Part of the code structure was inspired by a framework named [FeathersJs](https://feathersjs.com/) and functional programming principles.
 
-The service layer is quite opinionated as well, ensuring consistency accross the codebase if more services are added. This, combined with the aforementioned functional programming principles, means that all the code is highly reusable. 
+The service layer is quite opinionated as well, ensuring consistency across the codebase if more services are added. This, combined with the aforementioned functional programming principles, means that all the code is highly reusable. 
 This is how services are defined in this codebase:
 
 ```
