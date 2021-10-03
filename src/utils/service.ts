@@ -30,3 +30,20 @@ export const service = <T>({
   name,
   create: async (data: T) => await (await composePromises(create, { data, serviceName: name })).data
 })
+
+type ValidatorFunction = (value) => Promise<Boolean>
+
+export const validateDataFieldHook = <T>(fieldName: keyof T, validatorFunction: ValidatorFunction, errorMessage: string): Hook<T> => async (context) => {
+  const field = context.data[fieldName];
+  try {
+    await validatorFunction(field);
+    return context;
+  } catch(error) {
+    throw errorMessage
+  }
+}
+
+export const existsValidator: ValidatorFunction = async (value) => !!value ? Promise.resolve(true) : Promise.reject(false);
+
+export const oneOfValidator= (options: Array<string>): ValidatorFunction => async (value) => 
+  value && options.includes(value) ? Promise.resolve(true) : Promise.reject(false);
