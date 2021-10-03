@@ -1,7 +1,8 @@
 import { publishToQueueHook } from "../../utils/amqp";
 import { existsValidator, oneOfValidator, service, validateDataFieldHook } from "../../utils/service";
+import { callProviderEndpointHook } from "./hooks";
 
-interface WebhookProviders {
+export interface WebhookProviders {
   provider: 'gas' | 'internet';
   callbackUrl: string;
 }
@@ -13,5 +14,8 @@ export const webhookProvidersService = service<WebhookProviders>({
     validateDataFieldHook('provider', oneOfValidator(['gas', 'internet']), 'provider can only be either \'gas\' or \'internet\''),
     validateDataFieldHook('callbackUrl', existsValidator, 'callbackUrl is a required field'),
     publishToQueueHook('created')
+  ],
+  created: [
+    callProviderEndpointHook,
   ]
 });
