@@ -10,7 +10,7 @@ export const expressController = <T>(service: Service<T>): Router => {
       res.send(result)
     } catch( error ) {
       res.statusCode = 500;
-      res.send('Internal Server Error');
+      res.send(error || 'Internal Server Error');
     }
   });
 
