@@ -1,3 +1,4 @@
+import { badRequestError } from './errors';
 import {
   Hook,
   Service, 
@@ -51,7 +52,7 @@ describe('service-utils', () => {
           async () => Promise.reject(false),
           'error message')
         ({ data: { test: 'world'}, serviceName: ''})
-      ).rejects.toEqual('error message')
+      ).rejects.toEqual(badRequestError('error message'))
     })
 
     it('should not throw if field value does pass validation', async () => {

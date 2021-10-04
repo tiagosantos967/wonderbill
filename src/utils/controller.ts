@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import { Service } from './service';
 import { amqpChannelPromise } from '../connectors/amqp';
+import { toExpressError } from './errors';
 
 export const expressController = <T>(service: Service<T>): Router => {
   const router = express.Router();
@@ -10,8 +11,9 @@ export const expressController = <T>(service: Service<T>): Router => {
       const result = await service.create(req.body);
       res.send(result)
     } catch( error ) {
-      res.statusCode = 500;
-      res.send(error || 'Internal Server Error');
+      const expressError = toExpressError(error);
+      res.statusCode = expressError.status;
+      res.send(expressError);
     }
   });
 

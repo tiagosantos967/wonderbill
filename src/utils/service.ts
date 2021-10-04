@@ -1,3 +1,4 @@
+import { badRequestError, throwError } from "./errors";
 
 interface Context<T> {
   serviceName: string;
@@ -43,7 +44,7 @@ export const validateDataFieldHook = <T>(fieldName: keyof T, validatorFunction: 
     await validatorFunction(field);
     return context;
   } catch(error) {
-    throw errorMessage;
+    throw throwError(badRequestError(errorMessage));
   }
 }
 
